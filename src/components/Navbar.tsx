@@ -2,13 +2,11 @@ import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
-const spring = { type: "spring" as const, duration: 0.4, bounce: 0 };
-
 const navLinks = [
-  { label: "Courses", href: "#courses" },
-  { label: "Practice", href: "#practice" },
-  { label: "Features", href: "#features" },
   { label: "Pricing", href: "#pricing" },
+  { label: "Courses", href: "#courses" },
+  { label: "Resources", href: "#resources" },
+  { label: "Blog", href: "#blog" },
 ];
 
 const Navbar = () => {
@@ -16,51 +14,57 @@ const Navbar = () => {
 
   return (
     <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={spring}
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/80"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 left-0 right-0 z-50"
     >
-      <nav className="flex items-center justify-between max-w-6xl mx-auto px-4 py-4">
-        <a href="/" className="font-satoshi font-bold text-xl tracking-tight text-foreground">
-          IELTS<span className="text-primary">.AI</span>
+      <nav className="flex items-center justify-between max-w-[1400px] mx-auto px-6 py-5">
+        {/* Logo */}
+        <a href="/" className="flex items-center gap-2">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" className="text-primary-foreground">
+            <path d="M14 2L2 8l12 6 12-6-12-6z" fill="currentColor" opacity="0.8"/>
+            <path d="M2 14l12 6 12-6" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.6"/>
+            <path d="M2 20l12 6 12-6" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.4"/>
+          </svg>
+          <span className="font-satoshi font-bold text-lg tracking-wider text-primary-foreground">
+            IELTS AI
+          </span>
         </a>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1">
+        {/* Desktop links */}
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="px-4 py-2 text-sm font-medium text-muted-foreground rounded-full transition-colors hover:text-foreground hover:bg-muted"
+              className="text-sm font-medium text-primary-foreground/70 hover:text-primary-foreground transition-colors"
             >
               {link.label}
             </a>
           ))}
         </div>
 
+        {/* Desktop actions - Tarteel style: Log in (outlined) + Download (filled) */}
         <div className="hidden md:flex items-center gap-3">
           <a
             href="#login"
-            className="px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="px-5 py-2 text-sm font-medium text-primary-foreground border border-primary-foreground/30 rounded-full hover:border-primary-foreground/60 transition-colors"
           >
             Log in
           </a>
-          <motion.a
+          <a
             href="#start"
-            className="px-6 py-2.5 text-sm font-semibold bg-primary text-primary-foreground rounded-full"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={spring}
+            className="px-5 py-2 text-sm font-medium bg-primary-foreground text-primary rounded-full hover:opacity-90 transition-opacity"
           >
-            Start Free Trial
-          </motion.a>
+            Get Started
+          </a>
         </div>
 
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-foreground"
+          className="md:hidden p-2 text-primary-foreground"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -69,25 +73,24 @@ const Navbar = () => {
       {/* Mobile menu */}
       {mobileOpen && (
         <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:hidden bg-foreground/95 backdrop-blur-xl"
         >
-          <div className="flex flex-col px-4 py-4 gap-2">
+          <div className="flex flex-col px-6 py-6 gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="px-4 py-3 text-sm font-medium text-muted-foreground rounded-lg hover:bg-muted hover:text-foreground"
+                className="text-sm font-medium text-primary-foreground/70 hover:text-primary-foreground"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </a>
             ))}
-            <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-border">
-              <a href="#login" className="px-4 py-3 text-sm font-medium text-muted-foreground text-center">Log in</a>
-              <a href="#start" className="px-4 py-3 text-sm font-semibold bg-primary text-primary-foreground rounded-full text-center">Start Free Trial</a>
+            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-primary-foreground/10">
+              <a href="#login" className="text-sm font-medium text-primary-foreground/70 text-center">Log in</a>
+              <a href="#start" className="px-5 py-2.5 text-sm font-medium bg-primary-foreground text-primary rounded-full text-center">Get Started</a>
             </div>
           </div>
         </motion.div>
